@@ -20,6 +20,6 @@ export default {
       id, name, email, whatsapp, city, uf,
     });
 
-    return res.json({ id });
+    return res.status(204).json({ id });
   },
 };
