@@ -1,0 +1,28 @@
+{
+  "name": "semana-omnistack-11",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/Cauaspinheiro/semana-omnistack-11.git",
+  "author": "Cauaspinheiro <56241309+Cauaspinheiro@users.noreply.github.com>",
+  "license": "MIT",
+  "husky": {
+    "hooks": {
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+    }
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^8.3.5",
+    "@commitlint/config-conventional": "^8.3.4",
+    "commitizen": "^4.0.3",
+    "cz-conventional-changelog": "3.1.0",
+    "husky": "^4.2.1"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  },
+  "scripts": {
+    "ct": "git-cz"
+  }
+}
