@@ -1,10 +1,11 @@
 import React from 'react';
-import Logon from './pages/Logon';
+
+import Routes from './routes';
 
 import './styles/global.scss';
 
 const App = () => (
-  <Logon />
+  <Routes />
 );
 
 export default App;
