@@ -62,14 +62,14 @@ const Register = () => {
           />
           <input
             type="email"
-            placeholder="Email da sua ONG"
+            placeholder="Email para contato"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
           />
           <input
             type="tel"
-            placeholder="WhatsApp"
+            placeholder="WhatsApp para contato"
             value={whatsapp}
             onChange={(e) => setWhatsapp(e.target.value)}
             pattern="\[0-9]{2}\ [0-9]{4,6}[0-9]{3,4}$"
