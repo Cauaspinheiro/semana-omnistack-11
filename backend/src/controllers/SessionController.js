@@ -9,6 +9,6 @@ export default {
 
     if (!ong) return res.status(404).json({ error: 'ONG NOT FOUND' });
 
-    return res.json({ name: ong });
+    return res.json(ong);
   },
 };
