@@ -1,138 +1,93 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { Link, useHistory } from 'react-router-dom';
 import { FiPower, FiTrash2 } from 'react-icons/fi';
+
+import api from '../../services/api';
 
 import './styles.scss';
 
 import logo from '../../assets/logo.svg';
 
-const Profile = () => (
-  <div className="profile-container">
-    <header>
-      <img src={logo} alt="Be The Hero" />
-      <span>Bem vinda, APAD</span>
+const Profile = () => {
+  const [incidents, setIncidents] = useState([]);
 
-      <Link className="button" to="/incidents/new">Cadastrar novo caso</Link>
-      <button type="button">
-        <FiPower size={18} color="#e02041" />
-      </button>
-    </header>
+  const history = useHistory();
 
-    <h1>Casos cadastrados</h1>
+  async function handleLogOff() {
+    localStorage.clear();
+    history.push('/');
+  }
 
-    <ul>
-      <li>
-        <strong>CASO:</strong>
-        <p>
-          Cachorrinho
-        </p>
+  async function handleDeleteIncident(id) {
+    try {
+      await api.delete(`incidents/${id}`, {
+        headers: {
+          id: localStorage.getItem('ongId'),
+        },
+      });
 
-        <strong>DESCRIÇÃO:</strong>
-        <p>
-          Magrelin descrição Lorem ipsum dolor sit amet consectetur adipisicing
-          elit. Voluptate veniam quos perspiciatis cupiditate a necessitatibus
-          vitae laborum ab consequatur, doloremque excepturi beatae sunt officiis
-          id quam iure debitis,
-          laudantium dolorem.
-        </p>
+      setIncidents(incidents.filter((incident) => incident.id !== id));
+    } catch (error) {
+      alert('Erro ao deletar caso, tente novamente');
+    }
+  }
 
-        <strong>VALOR:</strong>
-        <p>R$ 120,00</p>
+  useEffect(() => {
+    api.get('/profile', {
+      headers: {
+        id: localStorage.getItem('ongId'),
+      },
+    }).then((response) => {
+      setIncidents(response.data);
+    });
+  }, []);
 
-        <button type="button">
-          <FiTrash2 size={20} color="#a8a8b3" />
+  return (
+    <div className="profile-container">
+      <header>
+        <img src={logo} alt="Be The Hero" />
+        <span>
+          Bem vinda,
+          {' '}
+          {localStorage.getItem('ongName')}
+        </span>
+
+        <Link className="button" to="/incidents/new">Cadastrar novo caso</Link>
+        <button type="button" onClick={handleLogOff}>
+          <FiPower size={18} color="#e02041" />
         </button>
-      </li>
-      <li>
-        <strong>CASO:</strong>
-        <p>
-          Cachorrinho
-        </p>
+      </header>
 
-        <strong>DESCRIÇÃO:</strong>
-        <p>
-          Magrelin descrição Lorem ipsum dolor sit amet consectetur adipisicing
-          elit. Voluptate veniam quos perspiciatis cupiditate a necessitatibus
-          vitae laborum ab consequatur, doloremque excepturi beatae sunt officiis
-          id quam iure debitis,
-          laudantium dolorem.
-        </p>
+      <h1>Casos cadastrados</h1>
 
-        <strong>VALOR:</strong>
-        <p>R$ 120,00</p>
+      <ul>
+        {
+          incidents.map((incident) => (
+            <li key={incident.id}>
+              <strong>CASO:</strong>
+              <p>
+                {incident.title}
+              </p>
 
-        <button type="button">
-          <FiTrash2 size={20} color="#a8a8b3" />
-        </button>
-      </li>
-      <li>
-        <strong>CASO:</strong>
-        <p>
-          Cachorrinho
-        </p>
+              <strong>DESCRIÇÃO:</strong>
+              <p>
+                {incident.description}
+              </p>
 
-        <strong>DESCRIÇÃO:</strong>
-        <p>
-          Magrelin descrição Lorem ipsum dolor sit amet consectetur adipisicing
-          elit. Voluptate veniam quos perspiciatis cupiditate a necessitatibus
-          vitae laborum ab consequatur, doloremque excepturi beatae sunt officiis
-          id quam iure debitis,
-          laudantium dolorem.
-        </p>
+              <strong>VALOR:</strong>
+              <p>
+                {Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(incident.value)}
+              </p>
 
-        <strong>VALOR:</strong>
-        <p>R$ 120,00</p>
+              <button type="button" onClick={() => handleDeleteIncident(incident.id)}>
+                <FiTrash2 size={20} color="#a8a8b3" />
+              </button>
+            </li>
+          ))
+        }
 
-        <button type="button">
-          <FiTrash2 size={20} color="#a8a8b3" />
-        </button>
-      </li>
-      <li>
-        <strong>CASO:</strong>
-        <p>
-          Cachorrinho
-        </p>
-
-        <strong>DESCRIÇÃO:</strong>
-        <p>
-          Magrelin descrição Lorem ipsum dolor sit amet consectetur adipisicing
-          elit. Voluptate veniam quos perspiciatis cupiditate a necessitatibus
-          vitae laborum ab consequatur, doloremque excepturi beatae sunt officiis
-          id quam iure debitis,
-          laudantium dolorem.
-        </p>
-
-        <strong>VALOR:</strong>
-        <p>R$ 120,00</p>
-
-        <button type="button">
-          <FiTrash2 size={20} color="#a8a8b3" />
-        </button>
-      </li>
-      <li>
-        <strong>CASO:</strong>
-        <p>
-          Cachorrinho
-        </p>
-
-        <strong>DESCRIÇÃO:</strong>
-        <p>
-          Magrelin descrição Lorem ipsum dolor sit amet consectetur adipisicing
-          elit. Voluptate veniam quos perspiciatis cupiditate a necessitatibus
-          vitae laborum ab consequatur, doloremque excepturi beatae sunt officiis
-          id quam iure debitis,
-          laudantium dolorem.
-        </p>
-
-        <strong>VALOR:</strong>
-        <p>R$ 120,00</p>
-
-        <button type="button">
-          <FiTrash2 size={20} color="#a8a8b3" />
-        </button>
-      </li>
-    </ul>
-  </div>
-);
-
+      </ul>
+    </div>
+  );
+};
 export default Profile;
