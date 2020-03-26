@@ -16,15 +16,19 @@ const NewIncidents = () => (
         <p>
           Descreva o detalhademente para encontrar um herói para resolver isso.
         </p>
-        <Link className="back-link" to="/profile ">
+        <Link className="back-link" to="/profile/ ">
           <FiArrowLeft size={16} color="#E02041" />
           Voltar para página inicial
         </Link>
       </section>
       <form>
-        <input placeholder="Título do caso" />
-        <textarea placeholder="Descrição" />
-        <input placeholder="Valor em reais" />
+        <input placeholder="Título do caso" required />
+        <textarea placeholder="Descrição" required />
+        <input
+          placeholder="Valor em reais"
+          required
+          pattern="([0-9]{1,3}\.)?[0-9]{1,3},[0-9]{2}$"
+        />
 
         <button type="submit" className="button">Cadastrar</button>
       </form>
