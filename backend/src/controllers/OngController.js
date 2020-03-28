@@ -1,4 +1,4 @@
-import crypto from 'crypto';
+import generateUniqueId from '../utils/generateUniqueId';
 
 import connection from '../database/connection';
 
@@ -14,7 +14,7 @@ export default {
       name, email, whatsapp, city, uf,
     } = req.body;
 
-    const id = crypto.randomBytes(8).toString('hex');
+    const id = generateUniqueId();
 
     await connection('ongs').insert({
       id, name, email, whatsapp, city, uf,
