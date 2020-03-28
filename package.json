@@ -24,5 +24,6 @@
   },
   "scripts": {
     "ct": "git-cz"
-  }
+  },
+  "dependencies": {}
 }

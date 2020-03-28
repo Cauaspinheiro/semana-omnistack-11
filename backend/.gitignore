@@ -116,3 +116,4 @@ dist
 
 # DB
 src/database/db.sqlite
+src/database/test.sqlite
